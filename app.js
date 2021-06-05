@@ -5,7 +5,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const authJwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
+const process = require('process');
 require('dotenv/config');
+
+process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    // application specific logging, throwing an error, or other logic here
+  });
 mongoose.set('useFindAndModify', false);
 
 app.use(cors());

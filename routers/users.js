@@ -24,7 +24,6 @@ router.get(`/:id`, async (req, res) =>{
 
 router.get('/get/count', async (req,res)=> {
     const userCount = await User.countDocuments((count) => count);
-    console.log("IN GET");    
     if(!userCount)
         res.status(500).json({success: false});
     res.send({
@@ -38,7 +37,6 @@ router.post('/login', async (req,res) => {
 
     if(!user) 
         return res.status(400).send("The user not found.");
-    
     if(user && bcrypt.compareSync(req.body.password, user.passwordHash)){
         const token = jwt.sign(
             {

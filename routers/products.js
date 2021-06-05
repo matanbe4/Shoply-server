@@ -33,7 +33,7 @@ const uploadOptions = multer({storage: storage});
 router.get(`/`, async (req,res)=>{
     const productList = await Product.find().populate('category');
     if(!productList){
-        res.status(500).json({success: false});
+        res.status(500).json({success: false, message: "fetching products failed."});
     }
     res.send(productList);
 })
@@ -99,10 +99,12 @@ router.post(`/`, uploadOptions.single('image'), async (req,res)=>{
     res.send(product);
 })
 
-router.put('/:id', uploadOptions.single('image'), async (req,res)=>{
+router.put("/:id", uploadOptions.single("image"), async (req,res)=>{
+    console.log("in products/put/id");
     if(!mongoose.isValidObjectId(req.params.id)){
         return res.status(400).send("Invalid product ID.");
     }
+    console.log('is valid');
     const category = await Category.findById(req.body.category);
     if(!category)
         return res.status(400).send("Invalid category.");
